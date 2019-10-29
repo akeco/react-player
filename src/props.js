@@ -52,7 +52,8 @@ export const propTypes = {
       forceDASH: bool,
       hlsOptions: object,
       hlsVersion: string,
-      dashVersion: string
+      dashVersion: string,
+      dashDrmProtection: object
     }),
     wistia: shape({
       options: object
@@ -145,7 +146,8 @@ export const defaultProps = {
       forceDASH: false,
       hlsOptions: {},
       hlsVersion: '0.10.1',
-      dashVersion: '2.9.2'
+      dashVersion: '2.9.2',
+      dashDrmProtection: {}
     },
     wistia: {
       options: {}

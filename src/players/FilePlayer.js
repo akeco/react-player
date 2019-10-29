@@ -157,7 +157,7 @@ export class FilePlayer extends Component {
   }
 
   load (url) {
-    const { hlsVersion, dashVersion } = this.props.config.file
+    const { hlsVersion, dashVersion, dashDrmProtection } = this.props.config.file
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
@@ -172,6 +172,10 @@ export class FilePlayer extends Component {
       getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
+        if (Object.keys(dashDrmProtection).length) {
+          console.log("DOBARRR");
+          this.dash.setProtectionData(dashDrmProtection);
+        }
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
