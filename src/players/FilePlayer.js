@@ -169,12 +169,13 @@ export class FilePlayer extends Component {
       })
     }
     if (this.shouldUseDASH(url)) {
+      console.log("IS DASH")
       getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         if (Object.keys(dashDrmProtection).length) {
-          console.log("DOBARRR");
-          this.dash.setProtectionData(dashDrmProtection);
+          console.log("APPEND CONFIG", dashDrmProtection);
+          //this.dash.setProtectionData(dashDrmProtection);
         }
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
