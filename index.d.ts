@@ -107,6 +107,8 @@ export interface ReactPlayerProps {
   onDuration?(duration: number): void;
   onSeek?(seconds: number): void;
   onProgress?(state: { played: number, playedSeconds: number, loaded: number, loadedSeconds: number }): void;
+  setHlsPolyNet?(hls: Object): void;
+  setDashPolyNet?(dash: Object): void;
   [otherProps: string]: any;
 }
 

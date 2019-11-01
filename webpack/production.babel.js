@@ -20,7 +20,7 @@ export default {
         sourceMap: true,
         uglifyOptions: {
           output: {
-            comments: true
+            comments: false
           }
         }
       }),

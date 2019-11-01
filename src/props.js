@@ -77,7 +77,8 @@ export const propTypes = {
   onSeek: func,
   onProgress: func,
   onEnablePIP: func,
-  onDisablePIP: func
+  onDisablePIP: func,
+  setHlsPolyNet: func
 }
 
 export const defaultProps = {
@@ -173,7 +174,8 @@ export const defaultProps = {
   onSeek: function () {},
   onProgress: function () {},
   onEnablePIP: function () {},
-  onDisablePIP: function () {}
+  onDisablePIP: function () {},
+  setHlsPolyNet: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [
