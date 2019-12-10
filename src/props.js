@@ -79,7 +79,8 @@ export const propTypes = {
   onEnablePIP: func,
   onDisablePIP: func,
   setHlsPolyNet: func,
-  setDashPolyNet: func
+  setDashPolyNet: func,
+  setPrometheanTv: func
 }
 
 export const defaultProps = {

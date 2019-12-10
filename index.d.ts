@@ -109,6 +109,7 @@ export interface ReactPlayerProps {
   onProgress?(state: { played: number, playedSeconds: number, loaded: number, loadedSeconds: number }): void;
   setHlsPolyNet?(hls: Object): void;
   setDashPolyNet?(dash: Object): void;
+  setPrometheanTv?(player: Object) : void;
   [otherProps: string]: any;
 }
 
