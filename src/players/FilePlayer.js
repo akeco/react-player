@@ -180,10 +180,10 @@ export class FilePlayer extends Component {
             this.shaka = new shaka.Player(this.player);
 
             if (setDashPolyNet) setDashPolyNet(this.shaka)
-            if (Object.keys(drm).length) {
+            if (drm && Object.keys(drm).length) {
               this.shaka.configure({drm});
             }
-       
+            
             this.shaka.load(url)
                 .then(() => console.log('Video loaded successfully'))
                 .catch((e) => console.error('Failed to load video', e));
@@ -200,16 +200,18 @@ export class FilePlayer extends Component {
           this.dash.initialize(this.player, url, this.props.playing)
           if (setPrometheanTv) setPrometheanTv('dash', this.dash)
           
-          const keys = Object.keys(drm.servers)
-          
-          if (Object.keys(drm).length) {
-            this.dash.setProtectionData({
-              [keys[0]]: {
-                serverURL: drm.servers[keys[0]]
-              }
-            })
+          if (drm && drm.servers) {
+            const keys = Object.keys(drm.servers)
+
+            if (keys.length) {
+              this.dash.setProtectionData({
+                [keys[0]]: {
+                  serverURL: drm.servers[keys[0]]
+                }
+              })
+            }
+            //this.dash.getDebug().setLogToBrowserConsole(false)
           }
-          //this.dash.getDebug().setLogToBrowserConsole(false)
         })
       }
     }
