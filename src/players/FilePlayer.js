@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import shaka from 'shaka-player';
 import { getSDK, isMediaStream } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
@@ -157,7 +157,7 @@ export class FilePlayer extends Component {
   }
 
   load (url) {
-    const { hlsVersion, dashVersion, dashProtectionData } = this.props.config.file
+    const { hlsVersion, dashVersion, drm, forceSHAKA } = this.props.config.file
     const { setHlsPolyNet, setDashPolyNet, setPrometheanTv } = this.props;
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
@@ -173,18 +173,42 @@ export class FilePlayer extends Component {
       })
     }
     if (this.shouldUseDASH(url)) {
-      getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
-        this.dash = dashjs.MediaPlayer().create()
+      if (forceSHAKA) {
+        shaka.polyfill.installAll();
+        // Check to see if the browser supports the basic APIs Shaka needs.
+        if (shaka.Player.isBrowserSupported()) {
+            this.shaka = new shaka.Player(this.player);
 
-        if (setDashPolyNet) setDashPolyNet(this.dash)
-        this.dash.initialize(this.player, url, this.props.playing)
-        if (setPrometheanTv) setPrometheanTv('dash', this.dash)
-        
-        if (Object.keys(dashProtectionData).length) {
-          this.dash.setProtectionData(dashProtectionData)
+            if (setDashPolyNet) setDashPolyNet(this.shaka)
+            if (Object.keys(drm).length) {
+              this.shaka.configure({drm});
+            }
+       
+            this.shaka.load(url)
+                .then(() => console.log('Video loaded successfully'))
+                .catch((e) => console.error('Failed to load video', e));
+        } else {
+            // This browser does not have the minimum set of APIs we need.
+            console.error('Browser not supported!');
         }
-        //this.dash.getDebug().setLogToBrowserConsole(false)
-      })
+      }
+      else {
+        getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
+          this.dash = dashjs.MediaPlayer().create()
+  
+          if (setDashPolyNet) setDashPolyNet(this.dash)
+          this.dash.initialize(this.player, url, this.props.playing)
+          if (setPrometheanTv) setPrometheanTv('dash', this.dash)
+          
+          const keys = Object.keys(drm.servers)
+          if (Object.keys(drm).length) {
+            this.dash.setProtectionData({
+              [keys[0]]: drm.servers[keys[0]]
+            })
+          }
+          //this.dash.getDebug().setLogToBrowserConsole(false)
+        })
+      }
     }
 
     if (url instanceof Array) {

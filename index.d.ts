@@ -53,10 +53,11 @@ export interface FileConfig {
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;
+  forceSHAKA?: boolean;
   hlsOptions?: Object;
   hlsVersion?: string;
   dashVersion?: string;
-  dashProtectionData?: Object;
+  drm?: Object;
 }
 
 export interface Config {

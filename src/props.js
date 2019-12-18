@@ -53,7 +53,7 @@ export const propTypes = {
       hlsOptions: object,
       hlsVersion: string,
       dashVersion: string,
-      dashProtectionData: object
+      drm: object
     }),
     wistia: shape({
       options: object
@@ -147,10 +147,11 @@ export const defaultProps = {
       forceAudio: false,
       forceHLS: false,
       forceDASH: false,
+      forceSHAKA: false,
       hlsOptions: {},
       hlsVersion: '0.10.1',
       dashVersion: '2.9.2',
-      dashProtectionData: {}
+      drm: {}
     },
     wistia: {
       options: {}

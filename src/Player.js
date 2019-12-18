@@ -38,6 +38,7 @@ export default class Player extends Component {
   componentDidUpdate (prevProps) {
     // Invoke player methods based on changed props
     const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
+
     if (!isEqual(prevProps.url, url)) {
       if (this.isLoading && !activePlayer.forceLoad) {
         console.warn(`ReactPlayer: the attempt to load ${url} is being deferred until the player has loaded`)
