@@ -201,9 +201,12 @@ export class FilePlayer extends Component {
           if (setPrometheanTv) setPrometheanTv('dash', this.dash)
           
           const keys = Object.keys(drm.servers)
+          
           if (Object.keys(drm).length) {
             this.dash.setProtectionData({
-              [keys[0]]: drm.servers[keys[0]]
+              [keys[0]]: {
+                serverURL: drm.servers[keys[0]]
+              }
             })
           }
           //this.dash.getDebug().setLogToBrowserConsole(false)
